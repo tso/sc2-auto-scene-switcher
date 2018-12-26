@@ -1,0 +1,15 @@
+html, body {
+    height: 95%;
+}
+
+.theme-toggle {
+    position: absolute;
+    right: 16px;
+}
+
+.form-container {
+    display: grid;
+    grid-template-columns: 25% 75%;
+    grid-row-gap: 16px;
+    align-items: center;
+}

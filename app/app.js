@@ -6,17 +6,33 @@ const app = new Vue({
         sc2OutOfGameScene: '',
         sc2ReplayScene: '',
         alert: false,
+        darkTheme: true,
     },
     methods: {
-        save: function () {
+        save: function() {
             streamlabs.userSettings.set('in_game_scene', this.sc2InGameScene);
             streamlabs.userSettings.set('out_of_game_scene', this.sc2OutOfGameScene);
             streamlabs.userSettings.set('replay_scene', this.sc2ReplayScene);
-            app.alert = true;
+            this.alert = true;
             setTimeout(() => {
-                app.alert = false;
+                this.alert = false;
             }, 2000);
-        }
+        },
+        cancel: function() {
+            streamlabs.userSettings.getAll()
+            .then(settings => {
+                this.sc2InGameScene = settings['in_game_scene'];
+                this.sc2OutOfGameScene = settings['out_of_game_scene'];
+                this.sc2ReplayScene = settings['replay_scene'];        
+            })
+            .catch(err => {
+                console.log(err);
+            });
+        },
+        toggleTheme: function() {
+            this.darkTheme = !this.darkTheme;
+            streamlabs.userSettings.set('dark_theme', this.darkTheme);
+        },
     }
 });
 
@@ -25,17 +41,15 @@ const streamlabs = window.Streamlabs;
 const streamlabsOBS = window.streamlabsOBS;
 streamlabs.init({ receiveEvents: true })
     .then(data => {
-        console.log('streamlabs initialized');
         return streamlabs.userSettings.getAll()
     }).then(settings => {
-        console.log('settings', settings);
         app.sc2InGameScene = settings['in_game_scene'];
         app.sc2OutOfGameScene = settings['out_of_game_scene'];
         app.sc2ReplayScene = settings['replay_scene'];
+        app.darkTheme = settings['dark_theme']
     }).then(() => {
         return streamlabsOBS.apiReady
     }).then(() => {
-        console.log('streamlabs obs api ready');
         return streamlabsOBS.v1.Scenes.getScenes()
     }).then(scenes => {
         app.scenes = scenes;

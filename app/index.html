@@ -5,44 +5,46 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="base.css"/>
     <script src="https://cdn.streamlabs.com/slobs-platform/lib/streamlabs-platform.min.js"></script>
     <script type="text/javascript" src="vue.js"></script>
     <script defer type="text/javascript" src="app.js"></script>
 </head>
   <body>
-    <div style="padding-top: 20px" class="container" id="app">
-        <div v-if="alert" class="alert alert-success" role="alert">Settings saved!</div>
-        <h2>StarCraft II Auto Scene Switcher</h2>
+    <div class="container mt-3" id="app">
+        <button v-on:click="toggleTheme" class="btn btn-secondary btn-sm theme-toggle">Theme Toggle</button>
+        <link v-if="darkTheme" rel="stylesheet" type="text/css" href="dark.css"/>
 
-        <form>
-            <div class="form-group">
-                <label for="sc2InGameScene">In game scene</label>
-                <select v-model="sc2InGameScene" class="form-control" id="sc2InGameScene">
+        <div v-if="alert" class="alert alert-primary" role="alert">Settings saved succesfully.</div>
+        <h3>StarCraft II Auto Scene Switcher</h3>
+
+        <div class="form-container mt-4">            
+            <label for="sc2InGameScene">In game scene</label>
+            <select v-model="sc2InGameScene" class="form-control" id="sc2InGameScene">
                 <option v-for="scene in scenes">
                     {{ scene.name }}
                 </option>
-                </select>
-            </div>
+            </select>
 
-            <div class="form-group">
-                <label for="sc2ReplayScene">In replay scene</label>
-                <select v-model="sc2ReplayScene" class="form-control" id="sc2ReplayScene">
+            <label for="sc2ReplayScene">In replay scene</label>
+            <select v-model="sc2ReplayScene" class="form-control" id="sc2ReplayScene">
                 <option v-for="scene in scenes">
                     {{ scene.name }}
                 </option>
-                </select>
-            </div>
+            </select>
 
-            <div class="form-group">
-                <label for="sc2OutOfGameScene">Out of game scene</label>
-                <select v-model="sc2OutOfGameScene" class="form-control" id="sc2OutOfGameScene">
+            <label for="sc2OutOfGameScene">Out of game scene</label>
+            <select v-model="sc2OutOfGameScene" class="form-control" id="sc2OutOfGameScene">
                 <option v-for="scene in scenes">
                     {{ scene.name }}
                 </option>
-                </select>
-            </div>
-            <button class="btn btn-primary" v-on:click="save">Save</button>
-        </form>
+            </select>            
+        </div>
+
+        <div class="mt-4 float-right">
+            <button class="btn btn-secondary btn-cancel" v-on:click="cancel">Cancel</button>
+            <button class="btn btn-primary btn-save ml-1" v-on:click="save">Save</button>
+        </div>
     </div>
   </body>
 </html>

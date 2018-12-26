@@ -1,0 +1,34 @@
+html, body {
+    background-color: rgb(26, 36, 44);
+}
+
+h3, label {
+    color: rgb(190, 190, 190);
+    margin-bottom: 0;
+}
+
+select {
+    background-color: rgb(45, 56, 62) !important;
+    border-color: rgb(45, 56, 62) !important;
+    color: rgb(190, 190, 190) !important;
+}
+
+.btn-save {
+    background-color: rgb(97, 192, 164) !important;
+    border-color: rgb(97, 192, 164) !important;
+}
+
+.btn-save:focus {
+    box-shadow: 0 0 0 0.2rem rgba(97,192,164,.5)
+}
+
+.btn-cancel {
+    background-color: rgb(82, 94, 100) !important;
+    border-color: rgb(82, 94, 100) !important;
+}   
+
+.alert {
+    color: white;
+    background-color: rgb(97, 192, 164) !important;
+    border-color: rgb(97, 192, 164) !important;
+}

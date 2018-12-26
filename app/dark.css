@@ -2,7 +2,7 @@ html, body {
     background-color: rgb(26, 36, 44);
 }
 
-h3, label {
+p, h3, label {
     color: rgb(190, 190, 190);
     margin-bottom: 0;
 }

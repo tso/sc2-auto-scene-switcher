@@ -17,6 +17,10 @@
 
         <div v-if="alert" class="alert alert-primary" role="alert">Settings saved succesfully.</div>
         <h3>StarCraft II Auto Scene Switcher</h3>
+        <p>
+            Remember that you need to run the proxy server to allow this app
+            to access the StarCraft II client API. You can download that <a v-on:click="openRelease" href="https://github.com/tso/sc2-auto-scene-switcher/releases/tag/v0.0.7">here.</a>
+        </p>
 
         <div class="form-container mt-4">            
             <label for="sc2InGameScene">In game scene</label>

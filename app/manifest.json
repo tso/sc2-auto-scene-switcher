@@ -1,8 +1,9 @@
 {
-    "version": "0.0.6",
+    "version": "0.0.7",
     "name": "StarCraft II Auto Scene Switcher",
     "permissions": [
-      "slobs.scenes-sources"
+      "slobs.scenes-sources",
+      "slobs.external-links"
     ],
     "sources": [],
     "pages": [

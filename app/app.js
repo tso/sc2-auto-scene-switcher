@@ -33,6 +33,9 @@ const app = new Vue({
             this.darkTheme = !this.darkTheme;
             streamlabs.userSettings.set('dark_theme', this.darkTheme);
         },
+        openRelease: function() {
+            streamlabsOBS.v1.External.openExternalLink('https://github.com/tso/sc2-auto-scene-switcher/releases/tag/v0.0.7');
+        },
     }
 });
 

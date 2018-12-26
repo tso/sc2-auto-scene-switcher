@@ -1,0 +1,16 @@
+{
+    "version": "0.0.5",
+    "name": "StarCraft II Auto Scene Switcher",
+    "permissions": [
+      "slobs.scenes-sources"
+    ],
+    "sources": [],
+    "pages": [
+      {
+        "slot": "top_nav",
+        "file": "index.html",
+        "allowPopout": false,
+        "persistent": true
+      }
+    ]
+}

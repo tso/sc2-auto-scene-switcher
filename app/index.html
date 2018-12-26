@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Starcraft II Auto Scene Switcher</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <script src="https://cdn.streamlabs.com/slobs-platform/lib/streamlabs-platform.min.js"></script>
+    <script type="text/javascript" src="vue.js"></script>
+    <script defer type="text/javascript" src="app.js"></script>
+</head>
+  <body>
+    <div style="padding-top: 20px" class="container" id="app">
+        <div v-if="alert" class="alert alert-success" role="alert">Settings saved!</div>
+        <h2>StarCraft II Auto Scene Switcher</h2>
+
+        <form>
+            <div class="form-group">
+                <label for="sc2InGameScene">In game scene</label>
+                <select v-model="sc2InGameScene" class="form-control" id="sc2InGameScene">
+                <option v-for="scene in scenes">
+                    {{ scene.name }}
+                </option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="sc2ReplayScene">In replay scene</label>
+                <select v-model="sc2ReplayScene" class="form-control" id="sc2ReplayScene">
+                <option v-for="scene in scenes">
+                    {{ scene.name }}
+                </option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="sc2OutOfGameScene">Out of game scene</label>
+                <select v-model="sc2OutOfGameScene" class="form-control" id="sc2OutOfGameScene">
+                <option v-for="scene in scenes">
+                    {{ scene.name }}
+                </option>
+                </select>
+            </div>
+            <button class="btn btn-primary" v-on:click="save">Save</button>
+        </form>
+    </div>
+  </body>
+</html>

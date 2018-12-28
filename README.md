@@ -1,11 +1,29 @@
 # sc2-auto-scene-switcher
-StreamLabs OBS SC2 Auto Scene Switcher
 
-Reason we need proxy: Since the streamlabs plugin is served as js/html we need
-to have cross origin requests allowed (specifically
-`Access-Control-Allow-Origin="*"`) for our starcraft 2 client api.
-Unfortunately I have no control over the starcraft 2 client api, so instead
-I've written a proxy which is very simple and adds that header for our client.
+This is a StreamLabs OBS app which polls the StarCraft II Client API to
+determine what the current streamer is doing in StarCraft (In game? In a
+replay? Out of game?) and transitions to the desired scene.
 
-TODO:
-- Make this less forceful (e.g. only transition to out of game scene if we were _just_ in a game)
+
+## How to use
+
+Add the app in StreamLabs OBS and run the program to proxy requests. You can
+download the proxy program [here][2]. It will run in your system tray with this
+icon: ![logo][logo].
+
+You'll probably get some security warning about untrusted code for the proxy.
+If you know how I can solve that for people let me know!
+
+
+## Why do we need this weird proxy thing?
+
+Streamlabs OBS apps are served as HTML/JS on a different origin than the
+StarCraft II Client API, so we're forced to respect [CORS][1]. I'm unsure
+of any way of getting around this other than having a program proxy requests
+to the StarCraft II Client API and adding the header
+`Access-Control-Allow-Origin="*"` to the response.
+
+
+[1]: https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
+[2]: https://github.com/tso/sc2-auto-scene-switcher/releases/tag/v0.0.9
+[logo]: https://raw.githubusercontent.com/getlantern/systray/master/example/icon/icon.png

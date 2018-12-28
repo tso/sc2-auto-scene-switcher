@@ -23,7 +23,7 @@ const app = new Vue({
             .then(settings => {
                 this.sc2InGameScene = settings['in_game_scene'];
                 this.sc2OutOfGameScene = settings['out_of_game_scene'];
-                this.sc2ReplayScene = settings['replay_scene'];        
+                this.sc2ReplayScene = settings['replay_scene'];
             })
             .catch(err => {
                 console.log(err);
@@ -43,42 +43,58 @@ const app = new Vue({
 const streamlabs = window.Streamlabs;
 const streamlabsOBS = window.streamlabsOBS;
 streamlabs.init({ receiveEvents: true })
-    .then(data => {
-        return streamlabs.userSettings.getAll()
-    }).then(settings => {
+    .then(data => streamlabs.userSettings.getAll())
+    .then(settings => {
         app.sc2InGameScene = settings['in_game_scene'];
         app.sc2OutOfGameScene = settings['out_of_game_scene'];
         app.sc2ReplayScene = settings['replay_scene'];
-        app.darkTheme = settings['dark_theme']
-    }).then(() => {
-        return streamlabsOBS.apiReady
-    }).then(() => {
-        return streamlabsOBS.v1.Scenes.getScenes()
-    }).then(scenes => {
+        app.darkTheme = settings['dark_theme'];
+    })
+    .then(() => streamlabsOBS.apiReady)
+    .then(() => streamlabsOBS.v1.Scenes.getScenes())
+    .then(scenes => {
         app.scenes = scenes;
+        var previousState = 'outOfGame';
         setInterval(() => {
-            fetch("http://127.0.0.1:6118/ui")
-                .then(data => { return data.json() })
-                .then(res => {
-                    if (res['activeScreens'].length) {
-                        streamlabsOBS.v1.Scenes.makeSceneActive(sceneNameToId(scenes, app.sc2OutOfGameScene));
-                    } else {
-                        fetch("http://127.0.0.1:6118/game")
-                            .then(data => { return data.json() })
-                            .then(res => {
-                                if (res['isReplay']) {
-                                    streamlabsOBS.v1.Scenes.makeSceneActive(sceneNameToId(scenes, app.sc2ReplayScene));
-                                } else {
-                                    streamlabsOBS.v1.Scenes.makeSceneActive(sceneNameToId(scenes, app.sc2InGameScene));
-                                }
-                            });
+            currentState().then(state => {
+                if (state != previousState) {
+                    if (state == 'inGame') {
+                        streamlabsOBS.v1.Scenes.makeSceneActive(sceneNameToId(scenes, app.sc2InGameScene));
                     }
-                })
-                .catch(err => {
-                    console.log(err);
-                });
+                    if (state == 'inReplay') {
+                        streamlabsOBS.v1.Scenes.makeSceneActive(sceneNameToId(scenes, app.sc2ReplayScene));
+                    }
+                    if (state == 'outOfGame') {
+                        streamlabsOBS.v1.Scenes.makeSceneActive(sceneNameToId(scenes, app.sc2OutOfGameScene));
+                    }
+                    previousState = state;
+                }
+            })
         }, 1500);
     })
+
+const currentState = () => {
+    return fetch("http://127.0.0.1:6118/ui")
+        .then(data => data.json() )
+        .then(res => {
+            if (res['activeScreens'].length) {
+                return 'outOfGame';
+            } else {
+                return fetch("http://127.0.0.1:6118/game")
+                    .then(data => data.json() )
+                    .then(res => {
+                        if (res['isReplay']) {
+                            return 'inReplay';
+                        } else {
+                            return 'inGame';
+                        }
+                    });
+            }
+        })
+        .catch(err => {
+            console.log(err);
+        });
+}
 
 const sceneNameToId = (scenes, name) => {
     for (var scene of scenes) {

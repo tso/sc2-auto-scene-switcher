@@ -1,0 +1,25 @@
+archive:
+  replacements:
+    amd64: 64-bit
+    386: 32-bit
+  format: zip
+builds:
+  -
+    main: ./proxy/main.go
+    goos:
+      - windows
+    goarch:
+      - amd64
+    env:
+      - CGO_ENABLED=0
+    ldflags:
+    - -H=windowsgui
+checksum:
+  name_template: 'checksums.txt'
+snapshot:
+  name_template: "{{ .Tag }}-next"
+changelog:
+  sort: asc
+sign:
+  artifacts: checksum
+ 

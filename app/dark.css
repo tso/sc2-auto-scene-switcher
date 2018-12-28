@@ -7,6 +7,10 @@ p, h3, label {
     margin-bottom: 0;
 }
 
+a {
+    color: rgb(97, 192, 164) !important;
+}
+
 select {
     background-color: rgb(45, 56, 62) !important;
     border-color: rgb(45, 56, 62) !important;

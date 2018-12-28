@@ -5,20 +5,17 @@ const app = new Vue({
         sc2InGameScene: '',
         sc2OutOfGameScene: '',
         sc2ReplayScene: '',
-        alert: false,
         darkTheme: true,
     },
     methods: {
         save: function() {
+            streamlabsOBS.v1.App.navigate('Editor');
             streamlabs.userSettings.set('in_game_scene', this.sc2InGameScene);
             streamlabs.userSettings.set('out_of_game_scene', this.sc2OutOfGameScene);
             streamlabs.userSettings.set('replay_scene', this.sc2ReplayScene);
-            this.alert = true;
-            setTimeout(() => {
-                this.alert = false;
-            }, 2000);
         },
         cancel: function() {
+            streamlabsOBS.v1.App.navigate('Editor');
             streamlabs.userSettings.getAll()
             .then(settings => {
                 this.sc2InGameScene = settings['in_game_scene'];

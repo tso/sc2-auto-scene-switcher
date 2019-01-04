@@ -53,21 +53,18 @@ streamlabs.init({ receiveEvents: true })
         app.scenes = scenes;
         var previousState = 'outOfGame';
         setInterval(() => {
+            const sceneMapping = {
+                'inGame': app.sc2InGameScene,
+                'inReplay': app.sc2ReplayScene,
+                'outOfGame': app.sc2OutOfGameScene,
+            }
+
             currentState().then(state => {
-                if (state != previousState) {
-                    if (state == 'inGame') {
-                        streamlabsOBS.v1.Scenes.makeSceneActive(sceneNameToId(scenes, app.sc2InGameScene));
-                    }
-                    if (state == 'inReplay') {
-                        streamlabsOBS.v1.Scenes.makeSceneActive(sceneNameToId(scenes, app.sc2ReplayScene));
-                    }
-                    if (state == 'outOfGame') {
-                        streamlabsOBS.v1.Scenes.makeSceneActive(sceneNameToId(scenes, app.sc2OutOfGameScene));
-                    }
-                    previousState = state;
-                }
+                if (state == previousState) return;
+                streamlabsOBS.v1.Scenes.makeSceneActive(sceneNameToId(scenes, sceneMapping[state]));
+                previousState = state;
             })
-        }, 1500);
+        }, 2000);
     })
 
 const currentState = () => {
@@ -76,17 +73,16 @@ const currentState = () => {
         .then(res => {
             if (res['activeScreens'].length) {
                 return 'outOfGame';
-            } else {
-                return fetch("http://127.0.0.1:6118/game")
-                    .then(data => data.json() )
-                    .then(res => {
-                        if (res['isReplay']) {
-                            return 'inReplay';
-                        } else {
-                            return 'inGame';
-                        }
-                    });
             }
+
+            return fetch("http://127.0.0.1:6118/game")
+                .then(data => data.json() )
+                .then(res => {
+                    if (res['isReplay']) {
+                        return 'inReplay';
+                    }
+                    return 'inGame';
+                });
         })
         .catch(err => {
             console.log(err);
